@@ -2,4 +2,9 @@
 <resources>
 
     <style name="Theme.Semana01" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.Semana01.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@android:color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.Semana01</item>
+    </style>
 </resources>

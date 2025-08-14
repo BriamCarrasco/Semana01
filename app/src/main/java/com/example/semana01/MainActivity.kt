@@ -39,12 +39,25 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.lifecycleScope
 import com.example.semana01.ui.theme.Semana01Theme
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 
 class MainActivity : ComponentActivity() {
+
+    private var isLoading = true
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        splashScreen.setKeepOnScreenCondition { isLoading }
+        lifecycleScope.launch {
+            delay(1500)
+            isLoading = false
+        }
+
         setContent {
             Semana01Theme {
                 Surface (
@@ -74,7 +87,7 @@ fun LoginScreen(){
 
     ){
         Image(
-            painter = painterResource(id= R.drawable.ic_launcher_foreground),
+            painter = painterResource(id= R.drawable.logo),
             contentDescription = "Logo",
             modifier = Modifier.size(50.dp),
             contentScale = ContentScale.Fit
