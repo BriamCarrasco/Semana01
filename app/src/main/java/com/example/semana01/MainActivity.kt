@@ -31,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -44,6 +45,7 @@ import com.example.semana01.ui.theme.Semana01Theme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import android.content.Intent
 
 class MainActivity : ComponentActivity() {
 
@@ -77,6 +79,7 @@ class MainActivity : ComponentActivity() {
 fun LoginScreen(){
     var userName by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var context = LocalContext.current
 
     Column (
         modifier = Modifier.
@@ -87,7 +90,7 @@ fun LoginScreen(){
 
     ){
         Image(
-            painter = painterResource(id= R.drawable.logo),
+            painter = painterResource(id= R.drawable.logo2),
             contentDescription = "Logo",
             modifier = Modifier.size(50.dp),
             contentScale = ContentScale.Fit
@@ -95,7 +98,7 @@ fun LoginScreen(){
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text (
-            text = "Duoc UC",
+            text = "Minuta nutricional",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
         )
@@ -143,7 +146,7 @@ fun LoginScreen(){
             color = Color(0xFF1E88E5),
             textAlign = TextAlign.Center,
             modifier = Modifier.clickable{
-
+                context.startActivity(Intent(context, passwordRecovery::class.java))
             }
         )
 

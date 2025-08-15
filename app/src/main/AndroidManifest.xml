@@ -12,12 +12,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Semana01">
         <activity
+            android:name=".signUp"
+            android:exported="true"
+            android:label="@string/title_activity_sign_up"
+            android:theme="@style/Theme.Semana01" />
+        <activity
+            android:name=".passwordRecovery"
+            android:exported="true"
+            android:label="@string/title_activity_password_recovery"
+            android:theme="@style/Theme.Semana01" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Semana01.Splash">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
