@@ -3,4 +3,5 @@
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_password_recovery">passwordRecovery</string>
     <string name="title_activity_sign_up">signUp</string>
+    <string name="title_activity_reset_password">resetPassword</string>
 </resources>

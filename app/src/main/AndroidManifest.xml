@@ -12,6 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Semana01">
         <activity
+            android:name=".resetPassword"
+            android:exported="true"
+            android:label="@string/title_activity_reset_password"
+            android:theme="@style/Theme.Semana01" />
+        <activity
             android:name=".signUp"
             android:exported="true"
             android:label="@string/title_activity_sign_up"
