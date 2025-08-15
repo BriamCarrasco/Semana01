@@ -15,13 +15,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -46,6 +39,17 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import android.content.Intent
+import android.widget.Space
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Surface
+import androidx.compose.material.*
+import androidx.compose.ui.text.input.VisualTransformation
 
 class MainActivity : ComponentActivity() {
 
@@ -80,10 +84,11 @@ fun LoginScreen(){
     var userName by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var context = LocalContext.current
+    var passwordVisible by remember { mutableStateOf(false) }
 
     Column (
-        modifier = Modifier.
-            fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .padding(horizontal = 32.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -122,7 +127,16 @@ fun LoginScreen(){
             onValueChange = { password = it },
             label = { Text("Contraseña") },
             modifier = Modifier.fillMaxWidth(),
-            visualTransformation = PasswordVisualTransformation()
+            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                val icon = if (passwordVisible) R.drawable.visible else R.drawable.ojo
+                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                    Icon(
+                        painter = painterResource(id = icon),
+                        contentDescription = if (passwordVisible) "Ocultar contraseña" else "Mostrar contraseña",
+                        modifier = Modifier.size(16.dp),
+                    )
+                }}
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -130,7 +144,7 @@ fun LoginScreen(){
         Button(
             onClick = {},
             modifier = Modifier.fillMaxWidth().height(50.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFB4E330)),
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFB4E330)),
             shape = RoundedCornerShape(4.dp)
         ){
             Text("Iniciar sesión", fontSize = 16.sp, color = Color.White)
@@ -150,7 +164,33 @@ fun LoginScreen(){
             }
         )
 
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Row {
+
+            Text(
+                text = "¿No tienes una cuenta?",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Normal,
+                color = Color.DarkGray,
+                textAlign = TextAlign.Center,
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = "Registrate",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Normal,
+                color = Color(0xFF1E88E5),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.clickable {
+                    context.startActivity(Intent(context, signUp::class.java))
+                }
+            )
+        }
+
+
 
     }
-
 }
+
+
