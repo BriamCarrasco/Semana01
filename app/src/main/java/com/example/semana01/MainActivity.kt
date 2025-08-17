@@ -40,17 +40,26 @@ import kotlinx.coroutines.launch
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import android.content.Intent
 import android.widget.Space
+import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Surface
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
-
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
 class MainActivity : ComponentActivity() {
 
     private var isLoading = true
@@ -89,11 +98,15 @@ fun LoginScreen(){
     Column (
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .imePadding()
             .padding(horizontal = 32.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
 
     ){
+
+        /*
         Image(
             painter = painterResource(id= R.drawable.logo2),
             contentDescription = "Logo",
@@ -101,32 +114,97 @@ fun LoginScreen(){
             contentScale = ContentScale.Fit
 
         )
+        */
+
+        val composition by rememberLottieComposition(
+            LottieCompositionSpec.RawRes(R.raw.recipesbookanimation)
+        )
+
+        val progress by animateLottieCompositionAsState(
+            composition,
+            iterations = LottieConstants.IterateForever
+
+        )
+
+        LottieAnimation(
+            composition = composition,
+            progress = {progress},
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(300.dp)
+        )
+
         Spacer(modifier = Modifier.height(8.dp))
+
         Text (
             text = "Minuta nutricional",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
         )
+
         Spacer(modifier = Modifier.height(8.dp))
+
         Text (
             text = "Iniciar sesión para continuar",
             fontSize = 16.sp,
             fontWeight = FontWeight.Normal,
             color = Color.DarkGray
         )
+
         Spacer(modifier = Modifier.height(24.dp))
+
         OutlinedTextField(
             value = userName,
             onValueChange = { userName = it },
-            label = { Text("Nombre de usuario") },
+            placeholder = {
+                Text("Nombre de usuario",
+                    color = Color.Gray,
+                    style = TextStyle (textAlign = TextAlign.Center),
+                    modifier = Modifier.fillMaxWidth()
+
+                )
+            },
             modifier = Modifier.fillMaxWidth()
+                .height(54.dp)
+                .background(Color.White, shape = RoundedCornerShape(4.dp)),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = Color(0xFFFD9C00),
+                unfocusedTextColor = Color(0xFFFD9C00),
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                cursorColor = Color.Black
+            ),
+            shape = RoundedCornerShape(4.dp),
+            singleLine = true,
+
+
         )
+
         Spacer(modifier = Modifier.height(16.dp))
+
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text("Contraseña") },
-            modifier = Modifier.fillMaxWidth(),
+            placeholder = {
+                Text("Contraseña",
+                    color = Color.Gray,
+                    style = TextStyle (textAlign = TextAlign.Center),
+                    modifier = Modifier.fillMaxWidth()
+
+                )
+            },
+            modifier = Modifier.fillMaxWidth()
+                .height(54.dp)
+                .background(Color.White, shape = RoundedCornerShape(4.dp)),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = Color(0xFFFD9C00),
+                unfocusedTextColor = Color(0xFFFD9C00),
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                cursorColor = Color.Black
+            ),
+            shape = RoundedCornerShape(4.dp),
+            singleLine = true,
             visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
             trailingIcon = {
                 val icon = if (passwordVisible) R.drawable.visible else R.drawable.ojo
@@ -144,7 +222,7 @@ fun LoginScreen(){
         Button(
             onClick = {},
             modifier = Modifier.fillMaxWidth().height(50.dp),
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFB4E330)),
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFFD9C00)),
             shape = RoundedCornerShape(4.dp)
         ){
             Text("Iniciar sesión", fontSize = 16.sp, color = Color.White)
