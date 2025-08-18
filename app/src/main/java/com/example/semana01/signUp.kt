@@ -66,6 +66,7 @@ import kotlinx.coroutines.sync.Mutex
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.statusBars
+import android.annotation.SuppressLint
 
 class signUp : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,8 +79,9 @@ class signUp : ComponentActivity() {
                     TopBar()}
                 ){
                     Surface(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier.fillMaxSize().padding(it),
                         color = Color(0xFFF5F5F5)
+
                     ) {
 
                         val navController = rememberNavController()
