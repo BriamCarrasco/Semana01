@@ -107,16 +107,6 @@ fun LoginScreen(){
 
     ){
 
-        /*
-        Image(
-            painter = painterResource(id= R.drawable.logo2),
-            contentDescription = "Logo",
-            modifier = Modifier.size(50.dp),
-            contentScale = ContentScale.Fit
-
-        )
-        */
-
         val composition by rememberLottieComposition(
             LottieCompositionSpec.RawRes(R.raw.recipesbookanimation)
         )
