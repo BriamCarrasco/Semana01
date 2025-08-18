@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -36,6 +37,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.semana01.ui.theme.Semana01Theme
 import androidx.compose.material.*
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.runtime.getValue
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 
 class passwordRecovery : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,12 +73,20 @@ fun recoveryScreen() {
     Scaffold(
         topBar = {
             TopAppBar(
-                modifier = Modifier.statusBarsPadding(),
-                title = { Text("Recuperar contraseña") },
-                backgroundColor = Color(0xFFB4E330),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp + WindowInsets.statusBars.asPaddingValues().calculateTopPadding()),
+                backgroundColor = Color(0xFFFD9C00),
                 navigationIcon = {
-                    IconButton(onClick = { (context as? ComponentActivity)?.finish() }) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Volver")
+                    Box(Modifier.statusBarsPadding()) {
+                        IconButton(onClick = { (context as? ComponentActivity)?.finish() }) {
+                            Icon(Icons.Filled.ArrowBack, contentDescription = "Volver")
+                        }
+                    }
+                },
+                title = {
+                    Box(Modifier.statusBarsPadding()) {
+                        Text("Recuperar contraseña")
                     }
                 }
             )
@@ -82,12 +100,24 @@ fun recoveryScreen() {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.logo2),
-                contentDescription = "Logo",
-                modifier = Modifier.size(50.dp),
-                contentScale = ContentScale.Fit
+            val composition by rememberLottieComposition(
+                LottieCompositionSpec.RawRes(R.raw.cooking)
             )
+
+            val progress by animateLottieCompositionAsState(
+                composition,
+                iterations = LottieConstants.IterateForever
+
+            )
+
+            LottieAnimation(
+                composition = composition,
+                progress = {progress},
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(300.dp)
+            )
+
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "Minuta nutricional",
@@ -115,7 +145,7 @@ fun recoveryScreen() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFB4E330)),
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFFD9C00)),
                 shape = RoundedCornerShape(4.dp)
             ) {
                 Text("Reestablecer contraseña", fontSize = 16.sp, color = Color.White)
