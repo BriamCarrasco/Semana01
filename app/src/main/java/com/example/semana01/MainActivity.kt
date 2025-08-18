@@ -40,6 +40,7 @@ import kotlinx.coroutines.launch
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import android.content.Intent
 import android.widget.Space
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Row
@@ -220,7 +221,16 @@ fun LoginScreen(){
         Spacer(modifier = Modifier.height(24.dp))
 
         Button(
-            onClick = {},
+            onClick = {
+                val usuarioEncontrado = UsuarioRepositorio.obtenerUsuarios().find {
+                    it.nombreusuario == userName && it.password == password
+                }
+                if (usuarioEncontrado != null) {
+                    context.startActivity(Intent(context, Home::class.java))
+                } else {
+                    Toast.makeText(context, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+                }
+            },
             modifier = Modifier.fillMaxWidth().height(50.dp),
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFFD9C00)),
             shape = RoundedCornerShape(4.dp)
