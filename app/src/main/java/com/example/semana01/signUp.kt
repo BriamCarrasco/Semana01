@@ -55,12 +55,17 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import android.widget.Toast
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.ui.text.font.FontWeight
 import kotlinx.coroutines.sync.Mutex
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.statusBars
 
 class signUp : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,6 +73,10 @@ class signUp : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Semana01Theme {
+                Scaffold (
+                    topBar={
+                    TopBar()}
+                ){
                     Surface(
                         modifier = Modifier.fillMaxSize(),
                         color = Color(0xFFF5F5F5)
@@ -84,310 +93,333 @@ class signUp : ComponentActivity() {
                 }
 
             }
+
         }
     }
+}
 
+@Composable
+fun TopBar() {
+    val context = LocalContext.current
+    TopAppBar(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(56.dp + WindowInsets.statusBars.asPaddingValues().calculateTopPadding()),
+        backgroundColor = Color(0xFFFD9C00),
+        navigationIcon = {
+            Box(Modifier.statusBarsPadding()) {
+                IconButton(onClick = { (context as? ComponentActivity)?.finish() }) {
+                    Icon(Icons.Filled.ArrowBack, contentDescription = "Volver")
+                }
+            }
+        },
+        title = {
+            Box(Modifier.statusBarsPadding()) {
+                Text("Registro")
+            }
+        }
+    )
+}
 
+@Composable
+fun Step1Screen(navController: NavController, viewModel: RegisterViewModel) {
+    val context = LocalContext.current
 
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .imePadding()
+            .padding(horizontal = 32.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        val composition by rememberLottieComposition(
+            LottieCompositionSpec.RawRes(R.raw.kitchen)
+        )
 
-    @Composable
-    fun Step1Screen(navController: NavController, viewModel: RegisterViewModel) {
+        val progress by animateLottieCompositionAsState(
+            composition,
+            iterations = LottieConstants.IterateForever
 
-        Column(
+        )
+
+        LottieAnimation(
+            composition = composition,
+            progress = {progress},
             modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .imePadding()
-                .padding(horizontal = 32.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxWidth()
+                .height(300.dp)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text (
+            text = "Registro",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text("Paso 1: Datos personales")
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        OutlinedTextField(
+            value = viewModel.nombreUsuario,
+            onValueChange = { viewModel.nombreUsuario = it },
+            placeholder = {
+                Text("Nombre de usuario",
+                    color = Color.Gray,
+                    style = TextStyle (textAlign = TextAlign.Center),
+                    modifier = Modifier.fillMaxWidth()
+
+                )
+            },
+            modifier = Modifier.fillMaxWidth()
+                .height(54.dp)
+                .background(Color.White, shape = RoundedCornerShape(4.dp)),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = Color(0xFFFD9C00),
+                unfocusedTextColor = Color(0xFFFD9C00),
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                cursorColor = Color.Black
+            ),
+            shape = RoundedCornerShape(4.dp),
+            singleLine = true,
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        OutlinedTextField(
+            value = viewModel.nombre,
+            onValueChange = { viewModel.nombre = it },
+            placeholder = {
+                Text("Nombre",
+                    color = Color.Gray,
+                    style = TextStyle (textAlign = TextAlign.Center),
+                    modifier = Modifier.fillMaxWidth()
+
+                )
+            },
+            modifier = Modifier.fillMaxWidth()
+                .height(54.dp)
+                .background(Color.White, shape = RoundedCornerShape(4.dp)),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = Color(0xFFFD9C00),
+                unfocusedTextColor = Color(0xFFFD9C00),
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                cursorColor = Color.Black
+            ),
+            shape = RoundedCornerShape(4.dp),
+            singleLine = true,
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        OutlinedTextField(
+            value = viewModel.apellidoP,
+            onValueChange = { viewModel.apellidoP = it },
+            placeholder = {
+                Text("Apellido Paterno",
+                    color = Color.Gray,
+                    style = TextStyle (textAlign = TextAlign.Center),
+                    modifier = Modifier.fillMaxWidth()
+
+                )
+            },
+            modifier = Modifier.fillMaxWidth()
+                .height(54.dp)
+                .background(Color.White, shape = RoundedCornerShape(4.dp)),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = Color(0xFFFD9C00),
+                unfocusedTextColor = Color(0xFFFD9C00),
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                cursorColor = Color.Black
+            ),
+            shape = RoundedCornerShape(4.dp),
+            singleLine = true,
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        OutlinedTextField(
+            value = viewModel.apellidoM,
+            onValueChange = { viewModel.apellidoM = it },
+            placeholder = {
+                Text("Apellido materno",
+                    color = Color.Gray,
+                    style = TextStyle (textAlign = TextAlign.Center),
+                    modifier = Modifier.fillMaxWidth()
+
+                )
+            },
+            modifier = Modifier.fillMaxWidth()
+                .height(54.dp)
+                .background(Color.White, shape = RoundedCornerShape(4.dp)),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = Color(0xFFFD9C00),
+                unfocusedTextColor = Color(0xFFFD9C00),
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                cursorColor = Color.Black
+            ),
+            shape = RoundedCornerShape(4.dp),
+            singleLine = true,
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = { navController.navigate("step2") },
+            modifier = Modifier.padding(top = 16.dp).align(Alignment.End),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color(0xFFFD9C00),
+                contentColor = Color.White
+            )
         ) {
-            val composition by rememberLottieComposition(
-                LottieCompositionSpec.RawRes(R.raw.kitchen)
-            )
+            Text("Siguiente")
+        }
+    }
+}
 
-            val progress by animateLottieCompositionAsState(
-                composition,
-                iterations = LottieConstants.IterateForever
+@Composable
+fun Step2Screen(navController: NavController, viewModel: RegisterViewModel) {
+    val context = LocalContext.current
+    var passwordVisible by remember { mutableStateOf(false)
+    }
 
-            )
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .imePadding()
+            .padding(horizontal = 32.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
 
-            LottieAnimation(
-                composition = composition,
-                progress = {progress},
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp)
-            )
+        val composition by rememberLottieComposition(
+            LottieCompositionSpec.RawRes(R.raw.kitchen)
+        )
 
-            Spacer(modifier = Modifier.height(16.dp))
+        val progress by animateLottieCompositionAsState(
+            composition,
+            iterations = LottieConstants.IterateForever
 
-            Text (
-                text = "Registro",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-            )
+        )
 
-            Spacer(modifier = Modifier.height(16.dp))
+        LottieAnimation(
+            composition = composition,
+            progress = {progress},
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(300.dp)
+        )
 
-            Text("Paso 1: Datos personales")
+        Spacer(modifier = Modifier.height(16.dp))
 
-            Spacer(modifier = Modifier.height(16.dp))
+        Text("Paso 2: Cuenta")
 
-            OutlinedTextField(
-                value = viewModel.nombreUsuario,
-                onValueChange = { viewModel.nombreUsuario = it },
-                placeholder = {
-                    Text("Nombre de usuario",
-                        color = Color.Gray,
-                        style = TextStyle (textAlign = TextAlign.Center),
-                        modifier = Modifier.fillMaxWidth()
+        OutlinedTextField(
+            value = viewModel.correo,
+            onValueChange = { viewModel.correo = it },
+            placeholder = {
+                Text("Correo electrónico",
+                    color = Color.Gray,
+                    style = TextStyle (textAlign = TextAlign.Center),
+                    modifier = Modifier.fillMaxWidth()
 
+                )
+            },
+            modifier = Modifier.fillMaxWidth()
+                .height(54.dp)
+                .background(Color.White, shape = RoundedCornerShape(4.dp)),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = Color(0xFFFD9C00),
+                unfocusedTextColor = Color(0xFFFD9C00),
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                cursorColor = Color.Black
+            ),
+            shape = RoundedCornerShape(4.dp),
+            singleLine = true,
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        OutlinedTextField(
+            value = viewModel.password,
+            onValueChange = { viewModel.password = it },
+            placeholder = {
+                Text("Contraseña",
+                    color = Color.Gray,
+                    style = TextStyle (textAlign = TextAlign.Center),
+                    modifier = Modifier.fillMaxWidth()
+
+                )
+            },
+            modifier = Modifier.fillMaxWidth()
+                .height(54.dp)
+                .background(Color.White, shape = RoundedCornerShape(4.dp)),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = Color(0xFFFD9C00),
+                unfocusedTextColor = Color(0xFFFD9C00),
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                cursorColor = Color.Black
+            ),
+            shape = RoundedCornerShape(4.dp),
+            singleLine = true,
+            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                val icon = if (passwordVisible) R.drawable.visible else R.drawable.ojo
+                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                    Icon(
+                        painter = painterResource(id = icon),
+                        contentDescription = if (passwordVisible) "Ocultar contraseña" else "Mostrar contraseña",
+                        modifier = Modifier.size(16.dp),
                     )
-                },
-                modifier = Modifier.fillMaxWidth()
-                    .height(54.dp)
-                    .background(Color.White, shape = RoundedCornerShape(4.dp)),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFFFD9C00),
-                    unfocusedTextColor = Color(0xFFFD9C00),
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent,
-                    cursorColor = Color.Black
-                ),
-                shape = RoundedCornerShape(4.dp),
-                singleLine = true,
-            )
+                }}
+        )
 
-            Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
-            OutlinedTextField(
-                value = viewModel.nombre,
-                onValueChange = { viewModel.nombre = it },
-                placeholder = {
-                    Text("Nombre",
-                        color = Color.Gray,
-                        style = TextStyle (textAlign = TextAlign.Center),
-                        modifier = Modifier.fillMaxWidth()
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
 
-                    )
-                },
-                modifier = Modifier.fillMaxWidth()
-                    .height(54.dp)
-                    .background(Color.White, shape = RoundedCornerShape(4.dp)),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFFFD9C00),
-                    unfocusedTextColor = Color(0xFFFD9C00),
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent,
-                    cursorColor = Color.Black
-                ),
-                shape = RoundedCornerShape(4.dp),
-                singleLine = true,
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            OutlinedTextField(
-                value = viewModel.apellidoP,
-                onValueChange = { viewModel.apellidoP = it },
-                placeholder = {
-                    Text("Apellido Paterno",
-                        color = Color.Gray,
-                        style = TextStyle (textAlign = TextAlign.Center),
-                        modifier = Modifier.fillMaxWidth()
-
-                    )
-                },
-                modifier = Modifier.fillMaxWidth()
-                    .height(54.dp)
-                    .background(Color.White, shape = RoundedCornerShape(4.dp)),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFFFD9C00),
-                    unfocusedTextColor = Color(0xFFFD9C00),
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent,
-                    cursorColor = Color.Black
-                ),
-                shape = RoundedCornerShape(4.dp),
-                singleLine = true,
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            OutlinedTextField(
-                value = viewModel.apellidoM,
-                onValueChange = { viewModel.apellidoM = it },
-                placeholder = {
-                    Text("Apellido materno",
-                        color = Color.Gray,
-                        style = TextStyle (textAlign = TextAlign.Center),
-                        modifier = Modifier.fillMaxWidth()
-
-                    )
-                },
-                modifier = Modifier.fillMaxWidth()
-                    .height(54.dp)
-                    .background(Color.White, shape = RoundedCornerShape(4.dp)),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFFFD9C00),
-                    unfocusedTextColor = Color(0xFFFD9C00),
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent,
-                    cursorColor = Color.Black
-                ),
-                shape = RoundedCornerShape(4.dp),
-                singleLine = true,
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(
-                onClick = { navController.navigate("step2") },
-                modifier = Modifier.padding(top = 16.dp).align(Alignment.End),
+            Button(onClick = { navController.popBackStack() },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Color(0xFFFD9C00),
                     contentColor = Color.White
                 )
             ) {
-                Text("Siguiente")
+                Text("Atrás")
+            }
+
+            Button(onClick = {
+                viewModel.registrarUsuario()
+                Toast.makeText(context, "Usuario registrado con éxito", Toast.LENGTH_SHORT).show()
+                context.startActivity(
+                    android.content.Intent(context, MainActivity::class.java)
+                )
+
+                if (context is ComponentActivity) {
+                    context.finish()
+                }
+            },
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Color(0xFFFD9C00),
+                    contentColor = Color.White)
+            ) {
+                Text("Finalizar")
             }
         }
     }
-
-    @Composable
-    fun Step2Screen(navController: NavController, viewModel: RegisterViewModel) {
-        val context = LocalContext.current
-        var passwordVisible by remember { mutableStateOf(false)
-        }
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .imePadding()
-                .padding(horizontal = 32.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-
-            val composition by rememberLottieComposition(
-                LottieCompositionSpec.RawRes(R.raw.kitchen)
-            )
-
-            val progress by animateLottieCompositionAsState(
-                composition,
-                iterations = LottieConstants.IterateForever
-
-            )
-
-            LottieAnimation(
-                composition = composition,
-                progress = {progress},
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp)
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text("Paso 2: Cuenta")
-
-            OutlinedTextField(
-                value = viewModel.correo,
-                onValueChange = { viewModel.correo = it },
-                placeholder = {
-                    Text("Correo electrónico",
-                        color = Color.Gray,
-                        style = TextStyle (textAlign = TextAlign.Center),
-                        modifier = Modifier.fillMaxWidth()
-
-                    )
-                },
-                modifier = Modifier.fillMaxWidth()
-                    .height(54.dp)
-                    .background(Color.White, shape = RoundedCornerShape(4.dp)),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFFFD9C00),
-                    unfocusedTextColor = Color(0xFFFD9C00),
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent,
-                    cursorColor = Color.Black
-                ),
-                shape = RoundedCornerShape(4.dp),
-                singleLine = true,
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            OutlinedTextField(
-                value = viewModel.password,
-                onValueChange = { viewModel.password = it },
-                placeholder = {
-                    Text("Contraseña",
-                        color = Color.Gray,
-                        style = TextStyle (textAlign = TextAlign.Center),
-                        modifier = Modifier.fillMaxWidth()
-
-                    )
-                },
-                modifier = Modifier.fillMaxWidth()
-                    .height(54.dp)
-                    .background(Color.White, shape = RoundedCornerShape(4.dp)),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFFFD9C00),
-                    unfocusedTextColor = Color(0xFFFD9C00),
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent,
-                    cursorColor = Color.Black
-                ),
-                shape = RoundedCornerShape(4.dp),
-                singleLine = true,
-                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                trailingIcon = {
-                    val icon = if (passwordVisible) R.drawable.visible else R.drawable.ojo
-                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                        Icon(
-                            painter = painterResource(id = icon),
-                            contentDescription = if (passwordVisible) "Ocultar contraseña" else "Mostrar contraseña",
-                            modifier = Modifier.size(16.dp),
-                        )
-                    }}
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-
-                Button(onClick = { navController.popBackStack() },
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color(0xFFFD9C00),
-                        contentColor = Color.White
-                    )
-                ) {
-                    Text("Atrás")
-                }
-
-                Button(onClick = {
-                    viewModel.registrarUsuario()
-                    Toast.makeText(context, "Usuario registrado con éxito", Toast.LENGTH_SHORT).show()
-                    context.startActivity(
-                        android.content.Intent(context, MainActivity::class.java)
-                    )
-
-                    if (context is ComponentActivity) {
-                        context.finish()
-                    }
-                },
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color(0xFFFD9C00),
-                        contentColor = Color.White)
-                ) {
-                    Text("Finalizar")
-                }
-            }
-        }
-    }
+}
 
 
 
