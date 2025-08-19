@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,7 +41,11 @@ import androidx.compose.material.*
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.text.TextStyle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
@@ -132,13 +137,33 @@ fun recoveryScreen() {
                 textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.height(16.dp))
+
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
-                label = { Text("Correo electrónico") },
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(8.dp)
+                placeholder = {
+                    Text(
+                        "Correo electrónico",
+                        color = Color.Gray,
+                        style = TextStyle(textAlign = TextAlign.Center),
+                        modifier = Modifier.fillMaxWidth()
+
+                    )
+                },
+                modifier = Modifier.fillMaxWidth()
+                    .height(54.dp)
+                    .background(Color.White, shape = RoundedCornerShape(4.dp)),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFFFD9C00),
+                    unfocusedTextColor = Color(0xFFFD9C00),
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    cursorColor = Color.Black
+                ),
+                shape = RoundedCornerShape(4.dp),
+                singleLine = true,
             )
+
             Spacer(modifier = Modifier.height(24.dp))
             Button(
                 onClick = {},
