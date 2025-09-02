@@ -1,112 +1,74 @@
-package com.example.semana01
+package com.example.semana01.screens.login
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
-import androidx.lifecycle.lifecycleScope
-import com.example.semana01.ui.theme.Semana01Theme
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.example.semana01.nav.NavRouter
-import com.example.semana01.screens.login.loginScreen
-import com.example.semana01.screens.home.homeScreen
-import com.example.semana01.screens.recoverpass.recoverScreen
-import com.example.semana01.screens.register.registerScreen
-import com.example.semana01.screens.register.RegisterViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
+import android.content.Intent
+import android.widget.Toast
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.semana01.screens.receta.recetaScreen
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.composable
-import androidx.compose.animation.*
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
+import com.example.semana01.R
+import com.example.semana01.data.UsuarioRepositorio
+import androidx.compose.ui.graphics.Color
 
-
-class MainActivity : ComponentActivity() {
-
-    private var isLoading = true
-    @OptIn(ExperimentalAnimationApi::class)
-    override fun onCreate(savedInstanceState: Bundle?) {
-        val splashScreen = installSplashScreen()
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        splashScreen.setKeepOnScreenCondition { isLoading }
-        lifecycleScope.launch {
-            delay(1500)
-            isLoading = false
-        }
-        setContent {
-            Semana01Theme {
-                val navController = rememberNavController()
-                AnimatedNavHost(
-                    navController = navController,
-                    startDestination = NavRouter.LoginScreen.route,
-                    enterTransition = { slideInHorizontally() },
-                    exitTransition = { slideOutHorizontally() }
-                ){
-                    composable(NavRouter.LoginScreen.route) {
-                        loginScreen(navController)
-
-                    }
-
-                    composable ( NavRouter.HomeScreen.route ){
-                        homeScreen(navController, onBack = {
-                            navController.popBackStack()
-                    })
-                    }
-
-                    composable (NavRouter.RegisterScreen.route){
-                        val registerViewModel: RegisterViewModel = viewModel()
-                        registerScreen(navController, registerViewModel)
-                    }
-
-                    composable (NavRouter.RecoverScreen.route){
-                        recoverScreen(navController, onBack = {
-                            navController.popBackStack()
-                        })
-                    }
-
-                    composable("receta/{idReceta}") { backStackEntry ->
-                        val id = backStackEntry.arguments?.getString("idReceta")
-                        recetaScreen(id = id, navRouter = navController, onBack = {
-                            navController.popBackStack()
-                        })
-                    }
-
-                }
-            }
-        }
-
-
-
-    }
-}
-
-
-/*
-
-@Preview
 @Composable
-fun LoginScreen(){
+fun loginScreen(navRouter: NavController) {
     var userName by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var context = LocalContext.current
     var passwordVisible by remember { mutableStateOf(false) }
+    UsuarioRepositorio.usuarioPrecargado()
+
 
     Column (
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .imePadding()
+            .background(Color(0xFFFAFAFA))
             .padding(horizontal = 32.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
 
     ){
 
@@ -172,7 +134,7 @@ fun LoginScreen(){
             singleLine = true,
 
 
-        )
+            )
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -219,7 +181,7 @@ fun LoginScreen(){
                     it.nombreusuario == userName && it.password == password
                 }
                 if (usuarioEncontrado != null) {
-                    context.startActivity(Intent(context, Home::class.java))
+                    navRouter.navigate("homeScreen")
                 } else {
                     Toast.makeText(context, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
                 }
@@ -241,7 +203,7 @@ fun LoginScreen(){
             color = Color(0xFF1E88E5),
             textAlign = TextAlign.Center,
             modifier = Modifier.clickable{
-                context.startActivity(Intent(context, passwordRecovery::class.java))
+                navRouter.navigate("recoverScreen")
             }
         )
 
@@ -264,14 +226,13 @@ fun LoginScreen(){
                 color = Color(0xFF1E88E5),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.clickable {
-                    context.startActivity(Intent(context, signUp::class.java))
+                    navRouter.navigate("registerScreen")
                 }
             )
         }
 
 
 
+
     }
 }
-*/
-
