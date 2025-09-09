@@ -166,10 +166,93 @@ object RecetasRepositorio{
                 fechaCreate = java.util.Date(),
                 fechaUpdate = java.util.Date()
             )
+            val receta4 = Receta(
+                idReceta = "4",
+                nombreReceta = "Sopa de Lentejas",
+                descCorta = "Un plato reconfortante y nutritivo, perfecto para los días fríos.",
+                imgURL = R.drawable.sopadelentejas,
+                tiempoPreparacion = 15,
+                tiempoCoccion = 45,
+                porciones = 4,
+                ingredientes = listOf(
+                    Ingredientes("Lentejas", 250.0, "gramos"),
+                    Ingredientes("Zanahorias", 2.0, "unidades"),
+                    Ingredientes("Cebolla", 1.0, "unidad"),
+                    Ingredientes("Ajo", 2.0, "dientes"),
+                    Ingredientes("Caldo de verduras", 1.5, "litros"),
+                    Ingredientes("Tomate triturado", 200.0, "gramos"),
+                    Ingredientes("Pimentón dulce", 1.0, "cucharadita")
+                ),
+                instrucciones = listOf(
+                    "Lavar las lentejas y escurrirlas.",
+                    "En una olla, sofreír la cebolla, el ajo y las zanahorias picadas.",
+                    "Añadir las lentejas, el pimentón y el tomate triturado.",
+                    "Verter el caldo de verduras y llevar a ebullición.",
+                    "Reducir el fuego y cocinar a fuego lento durante 40-45 minutos o hasta que las lentejas estén tiernas."
+                ),
+                infoNutricional = InfoNutricional(
+                    calorias = 350,
+                    proteina = 20.0,
+                    grasas = 5.0,
+                    carbohidratos = 50.0
+                ),
+                categoria = "Sopa",
+                dificultad = "Fácil",
+                etiquetas = listOf(
+                    Etiquetas("4", "Vegetariana"),
+                    Etiquetas("4", "Invierno"),
+                    Etiquetas("4", "Saludable")
+                ),
+                fechaCreate = java.util.Date(),
+                fechaUpdate = java.util.Date()
+            )
+
+            val receta5 = Receta(
+                idReceta = "5",
+                nombreReceta = "Brownies de Chocolate",
+                descCorta = "Un postre clásico, irresistiblemente denso y chocolatoso, con un toque de nueces.",
+                imgURL = R.drawable.brownie,
+                tiempoPreparacion = 10,
+                tiempoCoccion = 25,
+                porciones = 8,
+                ingredientes = listOf(
+                    Ingredientes("Mantequilla sin sal", 150.0, "gramos"),
+                    Ingredientes("Chocolate negro", 200.0, "gramos"),
+                    Ingredientes("Azúcar", 200.0, "gramos"),
+                    Ingredientes("Huevos", 3.0, "unidades"),
+                    Ingredientes("Harina de trigo", 100.0, "gramos"),
+                    Ingredientes("Nueces picadas", 50.0, "gramos")
+                ),
+                instrucciones = listOf(
+                    "Precalentar el horno a 180°C (350°F).",
+                    "Derretir el chocolate y la mantequilla en un baño maría.",
+                    "Retirar del fuego y mezclar con el azúcar.",
+                    "Añadir los huevos uno a uno, batiendo bien después de cada adición.",
+                    "Incorporar la harina y las nueces con movimientos envolventes.",
+                    "Verter la mezcla en un molde y hornear por 20-25 minutos."
+                ),
+                infoNutricional = InfoNutricional(
+                    calorias = 650,
+                    proteina = 8.0,
+                    grasas = 35.0,
+                    carbohidratos = 80.0
+                ),
+                categoria = "Postre",
+                dificultad = "Medio",
+                etiquetas = listOf(
+                    Etiquetas("5", "Postre"),
+                    Etiquetas("5", "Chocolate"),
+                    Etiquetas("5", "Dulce")
+                ),
+                fechaCreate = java.util.Date(),
+                fechaUpdate = java.util.Date()
+            )
 
             agregarReceta(receta1)
             agregarReceta(receta2)
             agregarReceta(receta3)
+            agregarReceta(receta4)
+            agregarReceta(receta5)
         }
     }
 
