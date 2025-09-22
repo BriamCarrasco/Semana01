@@ -41,7 +41,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.AlertDialogDefaults.containerColor
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ListItemDefaults.contentColor
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -295,17 +298,21 @@ fun recetaScreen(navRouter: NavController, id: String?, onBack: ()-> Unit){
             Spacer(modifier = Modifier.height(32.dp))
             Button(
                 onClick = { ShowDialog = true },
-                modifier = Modifier.padding(16.dp)
-            ) {
+                modifier = Modifier
+                    .padding(16.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFFFC107),
+                    contentColor = Color.White
+            )) {
                 Text("Ver información nutricional")
             }
 
             if (ShowDialog && recetaencontrada?.infoNutricional != null) {
+                val info = recetaencontrada.infoNutricional
                 AlertDialog(
                     onDismissRequest = { ShowDialog = false },
                     title = { Text("Información Nutricional") },
                     text = {
-                        val info = recetaencontrada.infoNutricional
                         Text(
                             "Calorías: ${info?.calorias ?: "-"} kcal\n" +
                                     "Proteína: ${info?.proteina ?: "-"} g\n" +
@@ -314,10 +321,19 @@ fun recetaScreen(navRouter: NavController, id: String?, onBack: ()-> Unit){
                         )
                     },
                     confirmButton = {
-                        Button(onClick = { ShowDialog = false }) {
+                        Button(
+                            onClick = { ShowDialog = false },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color(0xFFFFC107),
+                                contentColor = Color.White
+                            )
+                        ) {
                             Text("Cerrar")
                         }
-                    }
+                    },
+                    containerColor = Color(0xFFFFF8E1),
+                    titleContentColor = Color(0xFFFFC107),
+                    textContentColor = Color(0xFF333333)
                 )
             }
     }
