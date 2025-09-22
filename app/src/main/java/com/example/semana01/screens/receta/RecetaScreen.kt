@@ -40,7 +40,13 @@ import kotlinx.coroutines.sync.Mutex
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import com.example.semana01.screens.topbar.BottomBar
+import androidx.compose.runtime.setValue
 
 @Composable
 fun recetaScreen(navRouter: NavController, id: String?, onBack: ()-> Unit){
@@ -50,6 +56,8 @@ fun recetaScreen(navRouter: NavController, id: String?, onBack: ()-> Unit){
     val recetas = RecetasRepositorio.obtenerRecetas()
 
     val recetaencontrada = recetas.find { it.idReceta.toString() == id }
+
+    var ShowDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -280,6 +288,37 @@ fun recetaScreen(navRouter: NavController, id: String?, onBack: ()-> Unit){
                     )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
+
+
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
+            Button(
+                onClick = { ShowDialog = true },
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Text("Ver información nutricional")
+            }
+
+            if (ShowDialog && recetaencontrada?.infoNutricional != null) {
+                AlertDialog(
+                    onDismissRequest = { ShowDialog = false },
+                    title = { Text("Información Nutricional") },
+                    text = {
+                        val info = recetaencontrada.infoNutricional
+                        Text(
+                            "Calorías: ${info?.calorias ?: "-"} kcal\n" +
+                                    "Proteína: ${info?.proteina ?: "-"} g\n" +
+                                    "Grasas: ${info?.grasas ?: "-"} g\n" +
+                                    "Carbohidratos: ${info?.carbohidratos ?: "-"} g"
+                        )
+                    },
+                    confirmButton = {
+                        Button(onClick = { ShowDialog = false }) {
+                            Text("Cerrar")
+                        }
+                    }
+                )
             }
     }
 }
