@@ -23,7 +23,10 @@ import com.example.semana01.nav.NavRouter
 
 @Preview
 @Composable
-fun BottomBar(navController: NavController) {
+fun BottomBar(
+    navController: NavController,
+    onSettingsClick: () -> Unit = {}
+) {
     BottomAppBar(
         modifier = Modifier.height(66.dp),
         containerColor = Color(0xFFFFFFFF),
@@ -33,7 +36,14 @@ fun BottomBar(navController: NavController) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceAround
         ) {
-            IconButton(onClick = {navController.navigate(NavRouter.HomeScreen.route)}) {
+            IconButton(onClick = onSettingsClick) {
+                Icon(
+                    imageVector = Icons.Filled.Settings,
+                    contentDescription = "Settings",
+                    tint = Color.Black
+                )
+            }
+            IconButton(onClick = { navController.navigate(NavRouter.HomeScreen.route) }) {
                 Icon(
                     imageVector = Icons.Filled.Home,
                     contentDescription = "Home",
@@ -48,13 +58,6 @@ fun BottomBar(navController: NavController) {
                 )
             }
 
-            IconButton(onClick = { }) {
-                Icon(
-                    imageVector = Icons.Filled.Settings,
-                    contentDescription = "Settings",
-                    tint = Color.Black
-                )
-            }
         }
     }
 }

@@ -46,64 +46,66 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import com.example.semana01.drawer.DrawerScreen
 
 
 @Composable
-fun homeScreen(navRouter: NavController, onBack: () -> Unit){
+fun homeScreen(navRouter: NavController, onBack: () -> Unit) {
+    DrawerScreen(navRouter = navRouter) { openDrawer ->
+        Scaffold(
+            topBar = {
+                topBarBack(
+                    onBackClick = onBack,
+                    title = ""
+                )
+            },
+            bottomBar = {
+                BottomBar(
+                    navController = navRouter,
+                    onSettingsClick = openDrawer
+                )
+            }
+        ) { innerPadding ->
 
-    RecetasRepositorio.recetasPrecargadas()
+            RecetasRepositorio.recetasPrecargadas()
+            val recetas = RecetasRepositorio.obtenerRecetas()
 
-    val recetas = RecetasRepositorio.obtenerRecetas()
-
-    Scaffold(
-        topBar = {
-            topBarBack(
-                onBackClick = onBack,
-                title = ""
-            )
-        },
-        bottomBar = { BottomBar(navController = navRouter) }
-    ){ innerPadding ->
-        Column (
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color(0xFFF5F5F5))
-                .imePadding()
-                .padding(horizontal = 24.dp)
-                .padding(innerPadding),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-
-        ){
-
-            val composition by rememberLottieComposition(
-                LottieCompositionSpec.RawRes(R.raw.recipesbookanimation)
-            )
-
-            val progress by animateLottieCompositionAsState(
-                composition,
-                iterations = LottieConstants.IterateForever
-
-            )
-
-            LottieAnimation(
-                composition = composition,
-                progress = {progress},
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp)
-            )
-            Spacer(modifier = Modifier.height(16.dp))
+                    .fillMaxSize()
+                    .background(Color(0xFFF5F5F5))
+                    .imePadding()
+                    .padding(horizontal = 24.dp)
+                    .padding(innerPadding),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                val composition by rememberLottieComposition(
+                    LottieCompositionSpec.RawRes(R.raw.recipesbookanimation)
+                )
+                val progress by animateLottieCompositionAsState(
+                    composition,
+                    iterations = LottieConstants.IterateForever
+                )
 
-            LazyColumn (
-                modifier = Modifier.weight(1f)
-            ){
-                items(recetas) { receta ->
-                    RecetaCard(receta, navRouter)
+                LottieAnimation(
+                    composition = composition,
+                    progress = { progress },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(300.dp)
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                LazyColumn(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    items(recetas) { receta ->
+                        RecetaCard(receta, navRouter)
+                    }
                 }
             }
         }
-
     }
 }
 
@@ -113,7 +115,7 @@ fun RecetaCard(receta: Receta, navController: NavController) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .clickable{
+            .clickable {
                 navController.navigate("receta/${receta.idReceta}")
             },
         elevation = CardDefaults.cardElevation(4.dp),
@@ -141,20 +143,48 @@ fun RecetaCard(receta: Receta, navController: NavController) {
             Spacer(modifier = Modifier.width(16.dp))
 
             Column {
-                Text(text = receta.nombreReceta, fontWeight = FontWeight.Bold, fontSize = 15.sp, color = Color(0xFFFD9C00))
+                Text(
+                    text = receta.nombreReceta,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 15.sp,
+                    color = Color(0xFFFD9C00)
+                )
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = receta.descCorta, fontSize = 12.sp, color = Color.LightGray)
+                Text(
+                    text = receta.descCorta,
+                    fontSize = 12.sp,
+                    color = Color.LightGray
+                )
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "Porciones: ${receta.porciones}", fontSize = 12.sp, color = Color(0xFFFD9C00))
-                Row() {
-                    Text(text = "Dificultad: ", fontSize = 12.sp, color = Color(0xFFFD9C00))
+                Text(
+                    text = "Porciones: ${receta.porciones}",
+                    fontSize = 12.sp,
+                    color = Color(0xFFFD9C00)
+                )
+                Row {
+                    Text(
+                        text = "Dificultad: ",
+                        fontSize = 12.sp,
+                        color = Color(0xFFFD9C00)
+                    )
                     Spacer(modifier = Modifier.width(2.dp))
-                    Text(receta.dificultad, fontSize = 12.sp, color = Color.LightGray)
+                    Text(
+                        text = receta.dificultad,
+                        fontSize = 12.sp,
+                        color = Color.LightGray
+                    )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = "Tiempo: ",fontSize = 12.sp, color = Color(0xFFFD9C00))
+                    Text(
+                        text = "Tiempo: ",
+                        fontSize = 12.sp,
+                        color = Color(0xFFFD9C00)
+                    )
                     Spacer(modifier = Modifier.width(2.dp))
-                    Text(receta.tiempoPreparacion.toString(), fontSize = 12.sp, color = Color.LightGray)
-
+                    Text(
+                        text = receta.tiempoPreparacion.toString(),
+                        fontSize = 12.sp,
+                        color = Color.LightGray
+                    )
                 }
             }
         }
