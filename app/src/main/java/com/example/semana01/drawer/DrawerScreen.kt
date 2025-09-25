@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 @Composable
@@ -73,7 +74,7 @@ fun DrawerScreen(
 
                 Button(
                     onClick = {
-                        navRouter.popBackStack()
+                        FirebaseAuth.getInstance().signOut()
                         navRouter.navigate("loginScreen")
                     },
                     modifier = Modifier
