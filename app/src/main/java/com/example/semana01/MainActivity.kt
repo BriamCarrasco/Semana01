@@ -26,11 +26,13 @@ import com.example.semana01.screens.receta.recetaScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import androidx.compose.animation.*
+import com.google.firebase.auth.FirebaseAuth
 
 
 class MainActivity : ComponentActivity() {
 
     private var isLoading = true
+
     @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -44,50 +46,46 @@ class MainActivity : ComponentActivity() {
         setContent {
             Semana01Theme {
                 val navController = rememberNavController()
+                val user = FirebaseAuth.getInstance().currentUser
+                val startDestination = if (user != null) {
+                    NavRouter.HomeScreen.route
+                } else {
+                    NavRouter.LoginScreen.route
+                }
                 AnimatedNavHost(
                     navController = navController,
-                    startDestination = NavRouter.LoginScreen.route,
+                    startDestination = startDestination,
                     enterTransition = { slideInHorizontally() },
                     exitTransition = { slideOutHorizontally() }
-                ){
+                ) {
                     composable(NavRouter.LoginScreen.route) {
                         loginScreen(navController)
-
                     }
-
-                    composable ( NavRouter.HomeScreen.route ){
+                    composable(NavRouter.HomeScreen.route) {
                         homeScreen(navController, onBack = {
                             navController.popBackStack()
-                    })
+                        })
                     }
-
-                    composable (NavRouter.RegisterScreen.route){
+                    composable(NavRouter.RegisterScreen.route) {
                         val registerViewModel: RegisterViewModel = viewModel()
                         registerScreen(navController, registerViewModel)
                     }
-
-                    composable (NavRouter.RecoverScreen.route){
+                    composable(NavRouter.RecoverScreen.route) {
                         recoverScreen(navController, onBack = {
                             navController.popBackStack()
                         })
                     }
-
                     composable("receta/{idReceta}") { backStackEntry ->
                         val id = backStackEntry.arguments?.getString("idReceta")
                         recetaScreen(id = id, navRouter = navController, onBack = {
                             navController.popBackStack()
                         })
                     }
-
                 }
             }
         }
-
-
-
     }
 }
-
 
 /*
 
