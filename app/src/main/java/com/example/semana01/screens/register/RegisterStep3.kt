@@ -66,8 +66,8 @@ fun RegisterStep3(viewModel: RegisterViewModel,onBack: () -> Unit, onRegister: (
                 title = ""
             )
         }
-    ){ innerPadding ->
-        Column (
+    ) { innerPadding ->
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
@@ -79,141 +79,185 @@ fun RegisterStep3(viewModel: RegisterViewModel,onBack: () -> Unit, onRegister: (
             horizontalAlignment = Alignment.CenterHorizontally
 
         ) {
-        val composition by rememberLottieComposition(
-            LottieCompositionSpec.RawRes(R.raw.kitchen)
-        )
+            val composition by rememberLottieComposition(
+                LottieCompositionSpec.RawRes(R.raw.kitchen)
+            )
 
-        val progress by animateLottieCompositionAsState(
-            composition,
-            iterations = LottieConstants.IterateForever
+            val progress by animateLottieCompositionAsState(
+                composition,
+                iterations = LottieConstants.IterateForever
 
-        )
+            )
 
-        LottieAnimation(
-            composition = composition,
-            progress = { progress },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(300.dp)
-        )
+            LottieAnimation(
+                composition = composition,
+                progress = { progress },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(300.dp)
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        Text(
-            text = "Registro",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-        )
+            Text(
+                text = "Registro",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        OutlinedTextField(
-            value = viewModel.password,
-            onValueChange = { viewModel.password = it },
-            placeholder = {
-                Text("Contraseña",
-                    color = Color.Gray,
-                    style = TextStyle (textAlign = TextAlign.Center),
-                    modifier = Modifier.fillMaxWidth()
+            OutlinedTextField(
+                value = viewModel.password,
+                onValueChange = { viewModel.password = it },
+                placeholder = {
+                    Text(
+                        "Contraseña",
+                        color = Color.Gray,
+                        style = TextStyle(textAlign = TextAlign.Center),
+                        modifier = Modifier.fillMaxWidth()
 
-                )
-            },
-            modifier = Modifier.fillMaxWidth()
-                .height(54.dp)
-                .background(Color.White, shape = RoundedCornerShape(4.dp)),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color(0xFFFD9C00),
-                unfocusedTextColor = Color(0xFFFD9C00),
-                focusedContainerColor = Color.Transparent,
-                unfocusedContainerColor = Color.Transparent,
-                cursorColor = Color.Black
-            ),
-            shape = RoundedCornerShape(4.dp),
-            singleLine = true,
-            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-            trailingIcon = {
-                val icon = if (passwordVisible) R.drawable.visible else R.drawable.ojo
-                IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                    Icon(
-                        painter = painterResource(id = icon),
-                        contentDescription = if (passwordVisible) "Ocultar contraseña" else "Mostrar contraseña",
-                        modifier = Modifier.size(16.dp),
                     )
-                }}
-        )
+                },
+                modifier = Modifier.fillMaxWidth()
+                    .height(54.dp)
+                    .background(Color.White, shape = RoundedCornerShape(4.dp)),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFFFD9C00),
+                    unfocusedTextColor = Color(0xFFFD9C00),
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    cursorColor = Color.Black
+                ),
+                shape = RoundedCornerShape(4.dp),
+                singleLine = true,
+                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                trailingIcon = {
+                    val icon = if (passwordVisible) R.drawable.visible else R.drawable.ojo
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        Icon(
+                            painter = painterResource(id = icon),
+                            contentDescription = if (passwordVisible) "Ocultar contraseña" else "Mostrar contraseña",
+                            modifier = Modifier.size(16.dp),
+                        )
+                    }
+                }
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        OutlinedTextField(
-            value = confirmPassword,
-            onValueChange = { confirmPassword = it },
-            placeholder = {
-                Text("Repetir Contraseña",
-                    color = Color.Gray,
-                    style = TextStyle (textAlign = TextAlign.Center),
-                    modifier = Modifier.fillMaxWidth()
+            OutlinedTextField(
+                value = confirmPassword,
+                onValueChange = { confirmPassword = it },
+                placeholder = {
+                    Text(
+                        "Repetir Contraseña",
+                        color = Color.Gray,
+                        style = TextStyle(textAlign = TextAlign.Center),
+                        modifier = Modifier.fillMaxWidth()
 
-                )
-            },
-            modifier = Modifier.fillMaxWidth()
-                .height(54.dp)
-                .background(Color.White, shape = RoundedCornerShape(4.dp)),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color(0xFFFD9C00),
-                unfocusedTextColor = Color(0xFFFD9C00),
-                focusedContainerColor = Color.Transparent,
-                unfocusedContainerColor = Color.Transparent,
-                cursorColor = Color.Black
-            ),
-            shape = RoundedCornerShape(4.dp),
-            singleLine = true,
-            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-            trailingIcon = {
-                val icon = if (passwordVisible) R.drawable.visible else R.drawable.ojo
-                IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                    Icon(
-                        painter = painterResource(id = icon),
-                        contentDescription = if (passwordVisible) "Ocultar contraseña" else "Mostrar contraseña",
-                        modifier = Modifier.size(16.dp),
                     )
-                }}
-        )
+                },
+                modifier = Modifier.fillMaxWidth()
+                    .height(54.dp)
+                    .background(Color.White, shape = RoundedCornerShape(4.dp)),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFFFD9C00),
+                    unfocusedTextColor = Color(0xFFFD9C00),
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    cursorColor = Color.Black
+                ),
+                shape = RoundedCornerShape(4.dp),
+                singleLine = true,
+                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                trailingIcon = {
+                    val icon = if (passwordVisible) R.drawable.visible else R.drawable.ojo
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        Icon(
+                            painter = painterResource(id = icon),
+                            contentDescription = if (passwordVisible) "Ocultar contraseña" else "Mostrar contraseña",
+                            modifier = Modifier.size(16.dp),
+                        )
+                    }
+                }
+            )
 
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
 
-            Button(onClick = { onBack() },
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color(0xFFFD9C00),
-                    contentColor = Color.White
-                )
-            ) {
-                Text("Atrás")
+                Button(
+                    onClick = { onBack() },
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Color(0xFFFD9C00),
+                        contentColor = Color.White
+                    )
+                ) {
+                    Text("Atrás")
+                }
+
+                /*
+                Button(
+                    onClick = {
+                        if (viewModel.password != confirmPassword) {
+                            Toast.makeText(
+                                context,
+                                "Las contraseñas no coinciden",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return@Button
+                        } else {
+                            viewModel.registrarUsuario()
+                            Toast.makeText(
+                                context,
+                                "Usuario registrado con éxito",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            context.startActivity(
+                                android.content.Intent(context, MainActivity::class.java)
+                            )
+
+                            if (context is ComponentActivity) {
+                                context.finish()
+                            }
+                        }
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Color(0xFFFD9C00),
+                        contentColor = Color.White
+                    )
+                ) {
+                    Text("Finalizar")
+                }
+                */
+
+                Button(onClick = {
+                    if (viewModel.password != confirmPassword) {
+                        Toast.makeText(context, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
+                        return@Button
+                    } else {
+                        viewModel.registerUserFireBase { success, errorMsg ->
+                            if (success) {
+                                Toast.makeText(context, "Usuario registrado con éxito", Toast.LENGTH_SHORT).show()
+                                context.startActivity(
+                                    android.content.Intent(context, MainActivity::class.java)
+                                )
+                                if (context is ComponentActivity) {
+                                    context.finish()
+                                }
+                            } else {
+                                Toast.makeText(context, errorMsg ?: "Error al registrar", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                },
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Color(0xFFFD9C00),
+                        contentColor = Color.White)
+                ) {
+                    Text("Finalizar")
+                }
             }
 
-            Button(onClick = {
-                if (viewModel.password != confirmPassword) {
-                    Toast.makeText(context, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
-                    return@Button
-                }else {
-                viewModel.registrarUsuario()
-                Toast.makeText(context, "Usuario registrado con éxito", Toast.LENGTH_SHORT).show()
-                context.startActivity(
-                    android.content.Intent(context, MainActivity::class.java)
-                )
-
-                if (context is ComponentActivity) {
-                    context.finish()
-                }
-                }
-            },
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color(0xFFFD9C00),
-                    contentColor = Color.White)
-            ) {
-                Text("Finalizar")
-            }
         }
-
     }
-}
 }

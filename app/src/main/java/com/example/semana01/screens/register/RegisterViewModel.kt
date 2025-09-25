@@ -8,6 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.semana01.data.UsuarioRepositorio
 import com.example.semana01.data.Usuarios
+import com.google.firebase.auth.FirebaseAuth
 
 class RegisterViewModel : ViewModel() {
     var nombreUsuario by mutableStateOf("")
@@ -38,5 +39,18 @@ class RegisterViewModel : ViewModel() {
 
     fun isValidEmail(email: String): Boolean {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+
+
+    fun registerUserFireBase(onResult: (Boolean, String?) -> Unit){
+        val auth = FirebaseAuth.getInstance()
+        auth.createUserWithEmailAndPassword(correo, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    onResult(true, null)
+                } else {
+                    onResult(false, task.exception?.message)
+                }
+            }
     }
 }
