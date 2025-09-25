@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "54199694982",
+    "project_id": "minuta-semanal",
+    "storage_bucket": "minuta-semanal.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:54199694982:android:d776926ad0c8deae4f0307",
+        "android_client_info": {
+          "package_name": "com.example.semana01"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEQYkT9Z4xi8Cmc6p7fQ-cXJaprqppUQk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
