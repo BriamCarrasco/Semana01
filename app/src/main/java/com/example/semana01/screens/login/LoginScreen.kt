@@ -51,10 +51,11 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.semana01.R
 import com.example.semana01.data.UsuarioRepositorio
 import androidx.compose.ui.graphics.Color
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun loginScreen(navRouter: NavController) {
-    var userName by remember { mutableStateOf("") }
+    var correo by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var context = LocalContext.current
     var passwordVisible by remember { mutableStateOf(false) }
@@ -111,10 +112,10 @@ fun loginScreen(navRouter: NavController) {
         Spacer(modifier = Modifier.height(24.dp))
 
         OutlinedTextField(
-            value = userName,
-            onValueChange = { userName = it },
+            value = correo,
+            onValueChange = { correo = it },
             placeholder = {
-                Text("Nombre de usuario",
+                Text("Correo electrónico",
                     color = Color.Gray,
                     style = TextStyle (textAlign = TextAlign.Center),
                     modifier = Modifier.fillMaxWidth()
@@ -175,16 +176,16 @@ fun loginScreen(navRouter: NavController) {
         )
 
         Spacer(modifier = Modifier.height(24.dp))
-
+        /*
         Button(
             onClick = {
                 val usuarioEncontrado = UsuarioRepositorio.obtenerUsuarios().find {
-                    it.nombreusuario == userName && it.password == password
+                    it.nombreusuario == correo && it.password == password
                 }
                 if (usuarioEncontrado != null) {
                     navRouter.navigate("homeScreen")
                 } else {
-                    Toast.makeText(context, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "correo o contraseña incorrectos", Toast.LENGTH_SHORT).show()
                 }
             },
             modifier = Modifier.fillMaxWidth().height(50.dp),
@@ -193,6 +194,26 @@ fun loginScreen(navRouter: NavController) {
         ){
             Text("Iniciar sesión", fontSize = 16.sp, color = Color.White)
 
+        }
+        */
+
+        Button(
+            onClick = {
+                val auth = FirebaseAuth.getInstance()
+                auth.signInWithEmailAndPassword(correo, password)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            navRouter.navigate("homeScreen")
+                        } else {
+                            Toast.makeText(context, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+            },
+            modifier = Modifier.fillMaxWidth().height(50.dp),
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFFD9C00)),
+            shape = RoundedCornerShape(4.dp)
+        ) {
+            Text("Iniciar sesión", fontSize = 16.sp, color = Color.White)
         }
 
         Spacer(modifier = Modifier.height(16.dp))
